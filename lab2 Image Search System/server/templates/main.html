@@ -1,0 +1,609 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Image Search Engine</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+<meta http-equiv='cache-control' content="no-cache, must-revalidate, post-check=0, pre-check=0">
+<meta http-equiv='expires' content='0'>
+<meta http-equiv='pragma' content='no-cache'>
+
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Great+Vibes">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<!-- 雅颂体 -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css?family=YaSongTi&display=swap" rel="stylesheet">
+  <!--英文字体 -->
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.font.im/css?family=Indie+Flower" rel="stylesheet">
+
+<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+<style>
+  body {
+  background-image: url('/images/cool-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+}
+
+/* Navbar style */
+.navbar {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: rgba(173, 240, 234, 0.8); /* 设置背景颜色为蓝绿色并添加透明度 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+  transition: background-color 0.5s ease; /* 添加过渡效果 */
+  border-radius: 10px; /* 添加圆角矩形效果 */
+}
+
+
+.navbar:hover {
+  background-color: #24ae9e; /* 鼠标悬停时的背景颜色 */
+}
+
+
+.navbar-inner {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand img {
+  height: 80px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar-brand img:hover {
+  transform: rotate(360deg);
+}
+
+.navbar-brand:hover {
+  text-decoration: none;
+}
+
+.navbar-brand:hover img {
+  height: 100px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar h1 {
+  margin: 0;
+}
+
+.navbar h1 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar h1 a:hover {
+  color: #ccc;
+}
+
+/* Text shadow */
+.text-shadow {
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+
+.tdstyle {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 200px;
+  height: 200px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  padding-left: 0px;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  /* 创建渐变背景 */
+  background: linear-gradient(to bottom right, rgb(93, 130, 225), white);
+}
+
+
+#img0, #img1, #img2, #img3, #img4, #img5, #img6, #img7, #img8 {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 200px;
+  height: 200px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 0px;
+  padding-left: 5px;
+  border-left-width: 0px;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  transition: all 0.3s ease-in-out;
+}
+#img0:hover, #img1:hover, #img2:hover, #img3:hover, #img4:hover, #img5:hover, #img6:hover, #img7:hover, #img8:hover{
+    width:auto;
+    height:auto;
+}
+
+.addfavorite {
+  display: inline-block;
+  display: inline-block;
+  padding: 5px 10px;
+  background-image: linear-gradient(to right, rgb(188, 207, 253), #b680f4);
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-select {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  color: #212529;
+  line-height: 1.5;
+  padding: .375rem .75rem;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.custom-select:focus {
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+}
+
+:root {
+    --bg: #222;
+    --wave1: #a0edff;
+    --wave2: rgba(40, 187, 255, 0.5);
+    --wave3: #2084cc;
+  }
+
+  .box {
+    width: 650px;
+    height: 300px;
+    background: linear-gradient(270deg,
+        rgba(29, 170, 210, 0) 0%,
+        rgba(29, 170, 210, 0.1) 13%,
+        rgba(29, 170, 210, 0.4) 49%,
+        rgba(29, 170, 210, 0.1) 84%,
+        rgba(29, 170, 210, 0) 100%);
+    border: 1px solid;
+    border-image: linear-gradient(270deg,
+        rgba(81, 201, 232, 0),
+        rgba(56, 187, 222, 1),
+        rgba(30, 172, 212, 0)) 1 1;
+    margin-bottom: 120px;
+  }
+
+  .box-inner {
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 2px 7px 0px #238fdb;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid transparent;
+    background-image: linear-gradient(#021f40, #021f40),
+      linear-gradient(180deg, rgba(36, 144, 220, 0.41), rgba(37, 147, 225, 1));
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    overflow: hidden;
+  }
+
+  .inner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    background: #a0edff;
+    /* 直接对bottom操作 */
+    bottom: calc(-128% + var(--per));
+  }
+
+
+  .box-waves {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    width: 200%;
+    stroke: none;
+  }
+
+  .box-waves:nth-child(1) {
+    fill: var(--wave1);
+    transform: translate(-50%, 0);
+    z-index: 3;
+    animation: wave-move1 1.5s linear infinite;
+    /* svg重合有一条线 */
+    margin-bottom: -2px;
+  }
+
+  .box-waves:nth-child(2) {
+    fill: var(--wave2);
+    transform: translate(0, 0);
+    z-index: 2;
+    animation: wave-move2 3s linear infinite;
+  }
+
+  .box-waves:nth-child(3) {
+    fill: var(--wave3);
+    transform: translate(-50%, 0);
+    z-index: 1;
+    animation: wave-move1 3s linear infinite;
+  }
+
+
+  @keyframes wave-move1 {
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+
+  @keyframes wave-move2 {
+    100% {
+      transform: translate(-50%, 0);
+    }
+  }
+
+  .box-text {
+    font-size: 30px;
+    font-weight: bold;
+    width: 80px;
+    margin-left: 20px;
+    text-align: center;
+    color: #7EEDFF;
+  }
+
+  #favList img {
+  width: 200px;
+  height: 200px;
+  margin-right: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+#favList img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+#favList img.active {
+  transform: scale(1.2);
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+#main {
+  background: rgba(255, 255, 255, 0.68); /* 设置容器背景颜色和不透明度 */
+  border: 3px solid #daf6c5; /* 设置边框样式和颜色 */
+  backdrop-filter: blur(5px); /* 应用模糊效果 */
+  border-radius: 10px; /* 添加边框半径 */
+  padding: 20px; /* 添加内边距 */
+}
+
+select {
+  border: 1px solid #ccc; /* 设置边框样式和颜色 */
+  border-radius: 5px; /* 设置边框圆角 */
+  padding: 5px; /* 设置内边距 */
+  background-color: #F5F5F5; /* 设置背景颜色 */
+  color: #333; /* 设置文本颜色 */
+  font-size: 16px; /* 设置字体大小 */
+}
+
+
+
+select {
+  width: 150px; /* 设置下拉框宽度 */
+  margin-left: 10px; /* 设置下拉框与按钮间距 */
+}
+
+
+/* 设置搜索按钮样式 */
+input[type="submit"] {
+  background-color: #ebf3eb;
+  border: none;
+  color: rgb(163, 140, 211);
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-family: 'Indie Flower', cursive;
+  font-size: 16px;
+  border-radius: 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+/* 鼠标悬停时改变搜索按钮样式 */
+input[type="submit"]:hover {
+  background-color: #8cfd1b;
+}
+
+/* 设置显示收藏按钮样式 */
+button {
+  background-color: #fbfbf4;
+  border: none;
+  color: rgb(144, 143, 207);
+  padding: 12px 28px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 10px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+/* 鼠标悬停时改变显示收藏按钮样式 */
+button:hover {
+  background-color: #e7ec3d;
+}
+
+
+</style>
+</head>
+
+<body>
+
+    <div class="navbar">
+          <h1 class="text-center" style="color:black;"><b>IMAGE SEARCH</b>&nbsp;&nbsp;&nbsp;
+              <a class="navbar-brand" href="">
+                  <img src="{{ url_for('static', filename='images/logo.svg') }}" style="height:100px;" >
+              </a>
+          </h1>
+    </div>
+  
+  
+  
+    <div><br></br><br></div>
+	
+
+    <center></center>	
+
+    
+    <div id="main" class="container">
+      <table class="table">
+        <tr style="font-family: 'Noto Serif SC', serif;opacity:0.8;"><td><b>请选择你要上传的图片</b></td><td><b></b></td></tr>
+        <tr>
+          <td>
+            <form method="post" enctype="multipart/form-data">       
+              <input type="file" name="file" style="font-family: 'YaSongTi', cursive;" required />
+              <input type="submit" value="Search!" onclick="fun()">
+              <label for="orientationSelect" style="font-family: 'YaSongTi', cursive;">图片类型：</label>
+              <select id="orientationSelect" name="orientation" class="custom-select">
+                <option value="" disabled selected hidden style="font-family: 'YaSongTi', cursive;">选择图片类型</option>
+                <option value="none" style="font-family: 'YaSongTi', cursive;">随机</option>
+                <option value="horizontal" style="font-family: 'YaSongTi', cursive;">横版</option>
+                <option value="vertical" style="font-family: 'YaSongTi', cursive;">竖版</option>
+              </select>
+              <td><button onclick="showFavorites()" style="font-family: 'Indie Flower', cursive;">Show Favorites</button></td>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+            </form>
+          </td>
+          <td><b></b></td>
+        </tr>
+        <tr id="row1" style="display:none;"><td><a href=""><button id="clear" style="display:none;">Clear</button></a></td><td></td></tr>
+      </table>
+    </div>
+    
+    <div id="favList"></div>
+
+
+    <center>
+    <!-- <img id="load" src="/images/ajax-loader.gif" style="height:100px;weight:100px;display:none;" > -->
+    <div id="load" class="box flex-row j_c" style="display:none">
+      <div class="box-inner">
+         <div class="inner" style="--per:0%" id="box">
+           <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box-waves">
+             <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+             </path>
+           </svg>
+           <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box-waves">
+             <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+             </path>
+           </svg>
+           <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 600 140" class="box-waves">
+             <path d="M 0 70 Q 75 20,150 70 T 300 70 T 450 70 T 600 70 L 600 140 L 0 140 L 0 70Z">
+             </path>
+           </svg>
+         </div>
+       </div>
+       <div id="percentText" class="box-text">--%</div>
+     </div>
+    </center>
+    <div id="pictures" class="container">
+       <table id="table" class="table" style="background: white; border: 1px ;display:none;" ><tbody>
+        <tr><td class="tdstyle">
+    		<img id="img0" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img0')">
+          <img id="fav0" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+        
+      </td>
+             
+             <td class="tdstyle">
+    		<img id="img1" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img1')">
+          <img id="fav1" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+             <td class="tdstyle">
+    		<img id="img2" src="" alt="Norway"  width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img2')">
+          <img id="fav2" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+         </tr>
+         <tr><td class="tdstyle">
+    		<img id="img3" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img3')">
+          <img id="fav3" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+             <td class="tdstyle">
+    		<img id="img4" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img4')">
+          <img id="fav4" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+             <td class="tdstyle">
+    		<img id="img5" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img5')">
+          <img id="fav5" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+         </tr>
+	<tr><td class="tdstyle">
+    		<img id="img6" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img6')">
+          <img id="fav6" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+             <td class="tdstyle">
+    		<img id="img7" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img7')">
+          <img id="fav7" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+             <td class="tdstyle">
+    		<img id="img8" src="" alt="Norway" width="200" height="200">
+        <span class="addfavorite" onclick="addToFavorites('img8')">
+          <img id="fav8" src="{{ url_for('static', filename='images/favor_before.svg') }}" text="favorite" alt="Add to favorites" width="20" height="20" style="vertical-align: middle;">
+          <span style="font-family: 'Great Vibes', cursive; font-size: 1.2em;
+          vertical-align: top;">favorite</span>
+        </span>
+             </td>
+         </tr></tbody>
+       </table>
+
+
+
+</div>
+
+    <script type="text/javascript">
+	function myFunction(){
+
+	document.getElementById("predictedResult").innerHTML= "";
+	$('#clear').hide();
+	}
+
+
+	function fun(){
+      $('#favList').hide();
+     $('#pictures').show();
+		$('#load').show();    
+    const randomPercentage = Math.floor(Math.random() * 100) + 1; // 生成1到100之间的随机整数     
+    $('#percentText').text(randomPercentage + '%');//初始百分比
+    document.getElementById('box').style.setProperty('--per', randomPercentage+'%'); // 设置CSS变量    
+   		$("form").submit(function(evt){	            		 
+		evt.preventDefault();
+     		var formData = new FormData($(this)[0]);
+		     var orientation = $('#orientationSelect').val(); // 获取选项值
+         formData.append('orientation', orientation); // 将选项值添加到formData
+         console.log(orientation);
+   		$.ajax({
+      		 url: 'imgUpload',
+       		type: 'POST',
+      		 data: formData,
+      		 //async: false,
+      		 cache: false,
+      		 contentType: false,
+      		 enctype: 'multipart/form-data',
+      		 processData: false,
+		       
+      		 success: function (response) {
+            $('#load').hide();
+		       $('#row1').show();
+                  document.getElementById("img0").src = response.image0;
+                  document.getElementById("fav0").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+		              document.getElementById("img1").src = response.image1;
+                  document.getElementById("fav1").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                 document.getElementById("img2").src = response.image2;
+                 document.getElementById("fav2").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                 document.getElementById("img3").src = response.image3;
+                 document.getElementById("fav3").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                  document.getElementById("img4").src = response.image4;
+                  document.getElementById("fav4").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                  document.getElementById("img5").src = response.image5;
+                  document.getElementById("fav5").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                  document.getElementById("img6").src = response.image6;
+                  document.getElementById("fav6").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                  document.getElementById("img7").src = response.image7;
+                  document.getElementById("fav7").src="{{ url_for('static', filename='images/favor_before.svg') }}";
+                  document.getElementById("img8").src = response.image8;
+                  document.getElementById("fav8").src="{{ url_for('static', filename='images/favor_before.svg') }}";     
+                  $('#table').show();
+		              $('#clear').show();
+      		 }
+   		});
+
+   return false;
+ }
+ )};
+ var favorites = [];
+var currentIndex = 0;
+
+function addToFavorites(imgId) {
+  var img = document.getElementById(imgId);
+  var imgUrl = img.src;
+  if (!favorites.includes(imgUrl)) {
+    document.getElementById("fav"+imgId.charAt(3)).src="{{ url_for('static', filename='images/favor_after.svg') }}";
+    favorites.push(imgUrl);
+    console.log(favorites);
+  }
+};
+
+function showFavorites() {
+  var favList = document.getElementById("favList");
+  $('#favList').show();
+  favList.innerHTML = "";
+  $('#pictures').hide();
+  for (var i = 0; i < favorites.length; i++) {
+    var img = document.createElement("img");
+    img.src = favorites[i];
+    img.addEventListener('click', function() {
+      // 切换到下一张图片
+      currentIndex = (currentIndex + 1) % favorites.length;
+      updateActiveClass();
+    });
+    favList.appendChild(img);
+  }
+  updateActiveClass();
+}
+
+function updateActiveClass() {
+  // 清除所有图片的.active类
+  var images = document.querySelectorAll('#favList img');
+  for (var i = 0; i < images.length; i++) {
+    images[i].classList.remove('active');
+  }
+  // 添加当前图片的.active类
+  images[currentIndex].classList.add('active');
+}
+
+
+    </script>
+</body>
+</html>
